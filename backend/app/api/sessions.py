@@ -11,13 +11,16 @@ from app.schemas.api import (AnswerRequest, AnswerResponse, FeedbackRequest,
                              StartSessionRequest, StartSessionResponse)
 from app.schemas.evaluation import EvaluationFormatError
 from app.services.anonymizer import anonymize
-from app.services.llm_client import get_llm
+from app.services.llm_client import LLMUnavailableError, get_llm
 from app.services.report import build_report
 from app.services.session_store import store
 
 router = APIRouter(prefix="/api/sessions", tags=["estudiante"])
-_llm = get_llm()
-_graph = build_graph(_llm)
+
+
+def _graph_and_llm(model: str | None):
+    llm = get_llm(model)           # un grafo por solicitud: barato y permite modelo por sesion
+    return build_graph(llm), llm
 
 FORMAT_ERROR_MSG = "No fue posible procesar la evaluacion, intenta enviar tu respuesta nuevamente"  # RF-03 6A.3
 
@@ -34,7 +37,12 @@ def start_session(body: StartSessionRequest):
     cv = anonymize(body.cv_text)                      # RN-10: ANTES de guardar
     state = {"target_role": body.target_role, "seniority": body.seniority, "cv_text": cv.text,
              "job_description": body.job_description, "max_turns": body.num_questions}
-    state = _graph.invoke(state)                      # primera pregunta
+    state["llm_model"] = body.model
+    graph, _ = _graph_and_llm(body.model)
+    try:
+        state = graph.invoke(state)                   # primera pregunta
+    except LLMUnavailableError as exc:
+        raise HTTPException(503, str(exc)) from None
     sid = store.create(state)
     return StartSessionResponse(session_id=sid, question=state["current_question"],
                                 total_questions=body.num_questions, anonymization=cv.counts)
@@ -47,8 +55,11 @@ def answer(session_id: str, body: AnswerRequest):
     if state["status"] == SessionStatus.FINALIZADA.value:
         raise HTTPException(409, "La entrevista ya finalizo")
     t0 = time.perf_counter()
+    graph, _ = _graph_and_llm(state.get("llm_model"))
     try:
-        new_state = _graph.invoke({**state, "current_answer": body.answer})
+        new_state = graph.invoke({**state, "current_answer": body.answer})
+    except LLMUnavailableError as exc:
+        raise HTTPException(503, str(exc)) from None
     except EvaluationFormatError:                     # 6A.3: se conserva el estado previo
         raise HTTPException(502, FORMAT_ERROR_MSG) from None
     latency_ms = int((time.perf_counter() - t0) * 1000)
@@ -74,7 +85,7 @@ def report(session_id: str):  # RF-05
         raise HTTPException(409, "El reporte solo existe al finalizar la entrevista")
     if "report" not in state:
         # TODO T-401: catalogo real (RF-08) y puntajes previos del estudiante (RF-07)
-        state["report"] = build_report(_llm, turns=state["history"], previous_scores=[], resource_catalog=[])
+        state["report"] = build_report(_graph_and_llm(state.get("llm_model"))[1], turns=state["history"], previous_scores=[], resource_catalog=[])
         store.save(session_id, state)
     return state["report"]
     # TODO T-402: endpoint de PDF (GET /report.pdf) < 8 s (RNF-02)

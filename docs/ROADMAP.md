@@ -29,7 +29,7 @@ Cada tarea debe terminar con pruebas en verde y la documentación actualizada (v
 ## Fase 3 — LLM real (RIN-01, RF-11, RN-08)
 | ID | Tarea | Estado | Criterio |
 |---|---|---|---|
-| T-301 | Implementar `GeminiLLM`/`OpenAILLM` con salida JSON estructurada | ⬜ P1 | Evaluación real que cumpla el esquema; tasa de error JSON medida |
+| T-301 | LLM real: `OllamaLLM` hecho (🔄 falta probar con Ollama real); `GeminiLLM`/`OpenAILLM` siguen como stubs | 🔄 P1 | Evaluación real que cumpla el esquema; tasa de error JSON medida |
 | T-302 | Prompts versionados + few-shot por rúbrica; endpoint admin (RF-11) | ⬜ P2 | `prompt_version` guardado en cada evaluación |
 | T-303 | Optimizar para < 2.5 s/turno (modelo rápido, prompts cortos, resumen de historial) | ⬜ P1 | p95 < 2.5 s en 50 turnos |
 | T-304 | Cláusulas de equidad en prompts (invarianza a género, edad, nacionalidad, modismos) | ⬜ P2 | Pasa auditoría T-504 |

@@ -13,6 +13,8 @@
 import json
 from typing import Protocol
 
+import httpx
+
 from app.config import settings
 
 _QUESTION_BANK = [
@@ -27,6 +29,10 @@ _QUESTION_BANK = [
     "Cuentame de una retroalimentacion dificil que recibiste y que hiciste con ella.",
     "Por que te interesa esta vacante y como encaja tu experiencia con ella?",
 ]
+
+
+class LLMUnavailableError(RuntimeError):
+    """El proveedor LLM no responde (p. ej. Ollama apagado). La API lo traduce a HTTP 503."""
 
 
 class LLMClient(Protocol):
@@ -75,6 +81,37 @@ def _fake_scores(features: dict) -> dict:
     }
 
 
+class OllamaLLM:
+    """LLM local via Ollama (https://ollama.com). No requiere API key. RIN-01, ROADMAP T-301.
+    Usa /api/chat con `format: json` para el Evaluador (reduce errores de formato, RNF-05)."""
+
+    def __init__(self, base_url: str, model: str, timeout: float = 180.0):
+        self.base_url, self.model, self.timeout = base_url.rstrip("/"), model, timeout
+
+    def complete(self, task, system, user, json_mode=False, payload=None) -> str:
+        body = {"model": self.model, "stream": False,
+                "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+                "options": {"temperature": 0.1 if json_mode else 0.7}}
+        if json_mode:
+            body["format"] = "json"
+        try:
+            r = httpx.post(f"{self.base_url}/api/chat", json=body, timeout=self.timeout)
+            r.raise_for_status()
+            return r.json()["message"]["content"]
+        except (httpx.HTTPError, KeyError, ValueError) as exc:
+            raise LLMUnavailableError(f"Ollama no respondio ({self.model} @ {self.base_url}): {exc}") from exc
+
+
+def list_ollama_models(base_url: str, timeout: float = 5.0) -> list[str]:
+    """Modelos instalados localmente (equivale a `ollama list`)."""
+    try:
+        r = httpx.get(f"{base_url.rstrip('/')}/api/tags", timeout=timeout)
+        r.raise_for_status()
+        return [m["name"] for m in r.json().get("models", [])]
+    except (httpx.HTTPError, KeyError, ValueError) as exc:
+        raise LLMUnavailableError(f"No se pudo conectar con Ollama en {base_url}: {exc}") from exc
+
+
 class GeminiLLM:  # pragma: no cover - stub
     def __init__(self, api_key: str, model: str):
         self.api_key, self.model = api_key, model
@@ -91,7 +128,12 @@ class OpenAILLM:  # pragma: no cover - stub
         raise NotImplementedError("TODO T-301: implementar llamada a OpenAI (response_format json)")
 
 
-def get_llm() -> LLMClient:
+def get_llm(model: str | None = None) -> LLMClient:
+    """`model` (opcional) lo elige el usuario en la UI; 'fake' fuerza el LLM de demostracion."""
+    if model == "fake":
+        return FakeLLM()
+    if settings.llm_provider == "ollama" or (model and settings.llm_provider == "fake"):
+        return OllamaLLM(settings.ollama_base_url, model or settings.llm_model or "llama3.1:8b", settings.llm_timeout_s)
     if settings.llm_provider == "gemini":
         return GeminiLLM(settings.gemini_api_key, settings.llm_model)
     if settings.llm_provider == "openai":

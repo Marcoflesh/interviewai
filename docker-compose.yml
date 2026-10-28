@@ -13,6 +13,7 @@ services:
     env_file: .env
     depends_on: [db]
     ports: ["8000:8000"]
+    extra_hosts: ["host.docker.internal:host-gateway"]   # para alcanzar Ollama en tu maquina
     networks: [interviewai_net]
   frontend:
     build: ./frontend

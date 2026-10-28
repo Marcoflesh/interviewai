@@ -15,3 +15,4 @@ Cada una es una **suposición mía** donde el SRS no es explícito. Confirmar co
 | D-10 | Reporte fuera del grafo | RF-05 es "punto de extensión" de RF-03; lo dispara la API. | No |
 | D-11 | PDF | Fase inicial: `window.print()` + CSS de impresión. PDF desde backend en T-402 (RNF-02 < 8 s). | No |
 | D-12 | Anonimización | Se aplica al CV **antes** de crear la sesión; las respuestas del chat aún no se anonimizan (T-106). | Sí |
+| D-13 | LLM local | Proveedor por defecto: **Ollama** (sin API key). RNF-01 (< 2.5 s/turno) probablemente NO se cumple con modelos locales en CPU; se mide en T-303 y, si hace falta, se negocia el umbral o se usa un modelo mas chico. Gemini/OpenAI quedan como stubs. | Si |

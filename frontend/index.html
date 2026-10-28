@@ -14,6 +14,11 @@
       <!-- RF-01: carga de CV y oferta -->
       <div class="card" id="setup-card">
         <h1>Practica tu próxima entrevista</h1>
+        <div class="conn" id="conn">
+          <div class="field"><label for="api_url">Backend</label><input id="api_url" type="url"></div>
+          <div class="field"><label for="model">Modelo de Ollama</label><select id="model"><option value="">Cargando…</option></select></div>
+          <p id="conn-status" class="progress" role="status">Comprobando conexión…</p>
+        </div>
         <form id="setup">
           <div class="field"><label for="target_role">Puesto objetivo</label><input id="target_role" name="target_role" required value="Practicante de desarrollo backend"></div>
           <div class="field"><label for="seniority">Nivel</label><select id="seniority" name="seniority"><option value="practicante">Practicante</option><option value="junior" selected>Junior</option><option value="semi-senior">Semi-senior</option></select></div>

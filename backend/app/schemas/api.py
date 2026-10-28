@@ -11,6 +11,7 @@ class StartSessionRequest(BaseModel):  # RF-01 + RF-02
     job_description: str = Field(min_length=20)
     career: str | None = None
     university: str | None = None
+    model: str | None = None            # modelo de Ollama elegido en la UI ('fake' = demo)
     num_questions: int = Field(default=5, ge=MIN_QUESTIONS, le=MAX_QUESTIONS)
 
 

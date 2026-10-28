@@ -8,6 +8,8 @@
 - **No existe:** LLM real (stubs Gemini/OpenAI), Postgres conectado/migraciones, auth real, PDF desde backend, Golden Dataset real (el CSV es de ejemplo inventado), paneles PO/Admin/Analista, auditoría de sesgos.
 - **Dato importante:** con `FakeLLM` el gate de RN-07 **falla** (Spearman 0.58 < 0.75). Es lo esperado: FakeLLM no es un modelo real.
 
+**Actualización 2026-10-28 (sesión 2):** `OllamaLLM` implementado (probado solo contra servidor simulado; **nunca contra Ollama real**), selector de modelo en la UI, `/api/llm/status`, CORS para GitHub Pages y workflow `.github/workflows/pages.yml`. T-301 pasa a 🔄 (falta correr con Ollama real y medir calidad/JSON).
+
 ## Qué hacer ahora (en orden)
 1. **T-001** Probar `docker compose up --build`, corregir lo que falle.
 2. **T-301** Implementar `GeminiLLM` u `OpenAILLM` en `backend/app/services/llm_client.py` (salida JSON; respetar `parse_evaluation`).

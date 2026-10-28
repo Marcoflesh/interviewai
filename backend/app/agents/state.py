@@ -16,6 +16,7 @@ class InterviewState(TypedDict, total=False):
     current_answer: str        # vacio => aun no hay respuesta que evaluar
     features: dict             # AnswerFeatures.to_dict() (RN-04)
     evaluation: dict           # EvaluationResult.model_dump() del ultimo turno
+    llm_model: str | None      # modelo elegido para esta sesion
     status: str                # SessionStatus.value
     history: list[dict]        # [{question, answer, features, evaluation, is_followup}]
 

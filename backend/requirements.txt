@@ -1,5 +1,6 @@
 # Versiones FIJAS (RN-12 / RNF-09). Probadas con Python 3.12 el 2026-10-28.
 # Para actualizar: instalar, correr `pytest`, y volver a congelar aqui.
+httpx==0.28.1
 fastapi==0.162.0
 uvicorn==0.54.0
 SQLAlchemy==2.1.6

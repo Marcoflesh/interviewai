@@ -1,5 +1,10 @@
 # Bitácora (más reciente arriba). Una entrada por sesión de trabajo.
 
+## 2026-10-28 — Sesión 2: Ollama + UI + GitHub Pages (Claude)
+**Hecho:** `OllamaLLM` + `list_ollama_models` (`services/llm_client.py`), `LLMUnavailableError` → HTTP 503, modelo por sesión (`StartSessionRequest.model`), `/api/llm/status`, CORS configurable (`CORS_ORIGINS`), UI con URL del backend y selector de modelo, mensaje de espera, workflow de Pages, `.env.example` orientado a Ollama, `host.docker.internal` en compose, `tests/test_ollama.py`.
+**Verificado:** ver pytest de esta sesión (servidor Ollama simulado). **NO verificado:** Ollama real, calidad del JSON de modelos pequeños, latencia, GitHub Pages desplegado, HTTPS→localhost en Safari (probablemente bloqueado; usar Chrome/Edge/Firefox).
+**Siguiente:** correr con Ollama real, ajustar prompts al modelo elegido (T-302), medir latencia (T-303).
+
 ## 2026-10-28 — Sesión 1: esqueleto inicial (Claude)
 **Entrada:** SRS de InterviewAI (`docs/SRS.md`, copiado sin las imágenes base64 de los diagramas).
 **Hecho**
