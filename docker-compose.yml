@@ -1,0 +1,25 @@
+# RIN-04: frontend, backend (LangGraph incluido) y PostgreSQL en una red interna.
+services:
+  db:
+    image: postgres:16.4
+    environment:
+      POSTGRES_USER: interviewai
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-interviewai}
+      POSTGRES_DB: interviewai
+    volumes: [pgdata:/var/lib/postgresql/data]
+    networks: [interviewai_net]
+  backend:
+    build: ./backend
+    env_file: .env
+    depends_on: [db]
+    ports: ["8000:8000"]
+    networks: [interviewai_net]
+  frontend:
+    build: ./frontend
+    depends_on: [backend]
+    ports: ["8080:80"]
+    networks: [interviewai_net]
+volumes:
+  pgdata:
+networks:
+  interviewai_net:

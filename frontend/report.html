@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>InterviewAI · Reporte final</title>
+  <link rel="stylesheet" href="css/tokens.css"><link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/report.css"></head>
+<body>
+  <header class="topbar"><strong>InterviewAI</strong><a href="index.html">Nueva entrevista</a></header>
+  <main class="report">
+    <div id="report" aria-live="polite">Generando tu reporte…</div>
+    <div class="no-print"><button class="btn" id="pdf" type="button">Descargar reporte PDF</button></div>
+    <form class="card no-print" id="csat">
+      <h2>¿Te sirvió esta retroalimentación?</h2>
+      <div class="field"><label for="c">Calificación (1 a 5)</label><select id="c" name="csat"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div>
+      <div class="field"><label for="m">Comentario (opcional)</label><textarea id="m" name="comment" rows="3"></textarea></div>
+      <button class="btn" type="submit">Enviar</button>
+    </form>
+  </main>
+  <script type="module" src="js/report.js"></script>
+</body>
+</html>

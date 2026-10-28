@@ -1,0 +1,8 @@
+/* Tokens de diseño (RNF-06). Colores semánticos por dimensión STAR: >=4 sólido, 3 en el límite, <3 requiere profundizar (RN-03). */
+:root {
+  --bg: #eef2f4; --surface: #ffffff; --ink: #12232b; --muted: #5b6b73; --line: #d3dce1;
+  --brand: #0e5c6b; --brand-ink: #ffffff;
+  --ok: #1f8a5b; --mid: #b27a06; --low: #c8473a;
+  --r-lg: 14px; --r-sm: 6px; --gap: 1rem;
+  --font: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+}

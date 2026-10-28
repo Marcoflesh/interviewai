@@ -1,0 +1,9 @@
+/* Panel lateral de métricas STAR en vivo (RF-04): barra por dimensión, color según umbral. */
+.metrics { position:sticky; top:var(--gap); align-self:start; }
+.dim { margin-bottom:.9rem; }
+.dim-head { display:flex; justify-content:space-between; font-size:.95rem; }
+.bar { height:.6rem; background:var(--line); border-radius:99px; overflow:hidden; }
+.bar > span { display:block; height:100%; width:0; background:var(--muted); transition:width .4s ease, background-color .4s ease; }
+.bar.ok > span { background:var(--ok); } .bar.mid > span { background:var(--mid); } .bar.low > span { background:var(--low); }
+.badge { display:inline-block; padding:.15rem .6rem; border-radius:99px; font-size:.85rem; background:var(--line); }
+.badge.deepen { background:var(--low); color:#fff; }

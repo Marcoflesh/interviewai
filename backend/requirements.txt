@@ -1,0 +1,10 @@
+# Versiones FIJAS (RN-12 / RNF-09). Probadas con Python 3.12 el 2026-10-28.
+# Para actualizar: instalar, correr `pytest`, y volver a congelar aqui.
+fastapi==0.162.0
+uvicorn==0.54.0
+SQLAlchemy==2.1.6
+psycopg[binary]==3.3.6
+pydantic==2.14.1
+pydantic-settings==2.16.2
+langgraph==1.2.18
+langchain-core==1.7.1

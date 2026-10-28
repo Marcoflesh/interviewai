@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InterviewAI · Simulador de entrevistas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css"><link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/chat.css"><link rel="stylesheet" href="css/metrics.css">
+</head>
+<body>
+  <header class="topbar"><strong>InterviewAI</strong><span>Vista estudiante</span></header>
+  <main class="layout">
+    <section>
+      <!-- RF-01: carga de CV y oferta -->
+      <div class="card" id="setup-card">
+        <h1>Practica tu próxima entrevista</h1>
+        <form id="setup">
+          <div class="field"><label for="target_role">Puesto objetivo</label><input id="target_role" name="target_role" required value="Practicante de desarrollo backend"></div>
+          <div class="field"><label for="seniority">Nivel</label><select id="seniority" name="seniority"><option value="practicante">Practicante</option><option value="junior" selected>Junior</option><option value="semi-senior">Semi-senior</option></select></div>
+          <div class="field"><label for="num_questions">Número de respuestas (5 a 10)</label><input id="num_questions" name="num_questions" type="number" min="5" max="10" value="5"></div>
+          <div class="field"><label for="cv_text">Tu currículum (texto)</label><textarea id="cv_text" name="cv_text" rows="6" required minlength="20"></textarea></div>
+          <div class="field"><label for="job_description">Descripción de la vacante</label><textarea id="job_description" name="job_description" rows="5" required minlength="20"></textarea></div>
+          <p class="error" id="setup-error" role="alert"></p>
+          <button class="btn" type="submit">Comenzar entrevista</button>
+        </form>
+      </div>
+      <!-- RF-02: chat -->
+      <div class="card chat hidden" id="chat-card">
+        <div class="progress" id="progress"></div>
+        <div class="log" id="log" aria-live="polite"></div>
+        <form class="composer" id="composer">
+          <label for="answer" class="progress">Tu respuesta (usa Situación, Tarea, Acción y Resultado)</label>
+          <textarea id="answer"></textarea>
+          <button class="btn" id="send" type="submit">Enviar respuesta</button>
+        </form>
+      </div>
+    </section>
+    <!-- RF-04: panel lateral de métricas STAR en vivo -->
+    <aside class="card metrics" aria-label="Métricas de tu última respuesta">
+      <h2>Tu última respuesta</h2>
+      <p><span class="badge" id="status">Sin respuestas aún</span></p>
+      <div id="dims"></div>
+    </aside>
+  </main>
+  <script type="module" src="js/chat.js"></script>
+</body>
+</html>

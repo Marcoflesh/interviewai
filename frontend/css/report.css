@@ -1,0 +1,6 @@
+/* Reporte final (RF-05). @media print => exportación limpia a PDF (RNF-02). */
+.report { max-width:52rem; margin:var(--gap) auto; padding:0 var(--gap); display:grid; gap:var(--gap); }
+.compare { display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
+@media (max-width:40rem) { .compare { grid-template-columns:1fr; } }
+.score { font-size:2.4rem; font-weight:700; }
+@media print { .topbar, .no-print { display:none !important; } body { background:#fff; } .card { border:0; padding:0; break-inside:avoid; } }

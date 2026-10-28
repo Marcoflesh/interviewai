@@ -1,0 +1,9 @@
+id,career_area,question,answer,human_mean
+1,Sistemas,Cuentame de un proyecto,Hice un proyecto y salio bien,1.8
+2,Sistemas,Cuentame de un proyecto,"Lidere el desarrollo de una app; yo disene la base de datos e implemente la API, redujimos 40% el tiempo de captura para 120 usuarios en 3 semanas",4.5
+3,Sistemas,Un conflicto en equipo,No tuve conflictos,1.5
+4,Industrial,Una mejora de proceso,"Analice la linea 2, detecte cuellos de botella y propuse un nuevo layout; el tiempo de ciclo bajo 18% en 2 meses",4.2
+5,Industrial,Una mejora de proceso,Ayude a mi equipo con algunas cosas,2.0
+6,Datos,Un error que cometiste,"Cometi un error al limpiar datos; yo revise los scripts, corregi el filtro y valide con 3 pruebas, evitando 15% de registros duplicados",4.0
+7,Datos,Un error que cometiste,Fue un error pequeno,1.7
+8,Datos,Aprender algo rapido,Aprendi SQL en una semana viendo videos y practicando,3.0

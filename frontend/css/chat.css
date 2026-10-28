@@ -1,0 +1,12 @@
+/* Vista estudiante (RF-02, RF-04). Grid: chat | panel de métricas. Una columna en móvil (RNF-06). */
+.layout { display:grid; grid-template-columns: minmax(0,1fr) 20rem; gap:var(--gap); max-width:72rem; margin:var(--gap) auto; padding:0 var(--gap); }
+@media (max-width: 52rem) { .layout { grid-template-columns: 1fr; } .metrics { position:static; } }
+.chat { display:flex; flex-direction:column; min-height:70vh; }
+.log { flex:1; display:flex; flex-direction:column; gap:.75rem; margin-bottom:var(--gap); }
+.msg { max-width:85%; padding:.7rem .9rem; border-radius:var(--r-lg); white-space:pre-wrap; }
+.msg.bot { background:#e3edf0; align-self:flex-start; }
+.msg.me { background:var(--brand); color:var(--brand-ink); align-self:flex-end; }
+.msg.note { align-self:center; color:var(--muted); font-size:.9rem; background:none; }
+.composer { display:grid; gap:.5rem; }
+.composer textarea { min-height:6rem; resize:vertical; padding:.7rem; border:1px solid var(--line); border-radius:var(--r-sm); }
+.progress { color:var(--muted); font-size:.9rem; margin-bottom:.5rem; }
